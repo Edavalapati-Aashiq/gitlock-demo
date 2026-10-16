@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitLock | Secure Code Escrow</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Inter, Arial, sans-serif;
+      background: #080d18; color: #e5e7eb;
+    }
+    header {
+      padding: 22px 8%; display: flex;
+      justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #1e293b;
+    }
+    .logo { font-size: 23px; font-weight: 800; color: #22d3ee; }
+    .tag { color: #94a3b8; font-size: 13px; }
+    main { max-width: 1000px; margin: 55px auto; padding: 20px; }
+    h1 { font-size: clamp(30px, 5vw, 45px); margin-bottom: 12px; }
+    h1 span { color: #22d3ee; }
+    .subtitle { color: #94a3b8; line-height: 1.7; }
+    .card {
+      margin-top: 30px; padding: 28px; border-radius: 16px;
+      background: #111827; border: 1px solid #273449;
+    }
+    h2 { font-size: 19px; margin-top: 0; }
+    label { display: block; margin: 18px 0 8px; color: #cbd5e1; }
+    input {
+      width: 100%; padding: 13px; border-radius: 8px;
+      background: #080d18; color: white;
+      border: 1px solid #334155; outline: none;
+    }
+    input:focus { border-color: #22d3ee; }
+    button {
+      margin-top: 22px; padding: 13px 20px; border: 0;
+      border-radius: 8px; background: #22d3ee;
+      color: #082f49; font-weight: 800; cursor: pointer;
+    }
+    button:hover { background: #67e8f9; }
+    .status {
+      display: none; margin-top: 22px; padding: 18px;
+      border-radius: 10px; background: #0b2928;
+      border: 1px solid #115e59; line-height: 1.9;
+      overflow-wrap: anywhere;
+    }
+    .success { color: #5eead4; font-weight: bold; }
+    .muted { color: #94a3b8; font-size: 13px; }
+    .steps {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 15px; margin-top: 25px;
+    }
+    .step { padding: 18px; background: #111827; border-radius: 12px; }
+    .step b { color: #22d3ee; }
+    footer { text-align: center; padding: 30px; color: #64748b; }
+    @media(max-width:650px) {
+      .steps { grid-template-columns: 1fr; }
+      header { padding: 18px 5%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">GitLock</div>
+    <div class="tag">BLOCKCHAIN-POWERED ESCROW</div>
+  </header>
+
+  <main>
+    <h1>Code delivered.<br /><span>Trust verified.</span></h1>
+    <p class="subtitle">
+      A secure platform for freelance software delivery.
+      Verify project details, record proof on the blockchain,
+      and release escrow payments when delivery conditions are met.
+    </p>
+
+    <section class="card">
+      <h2>Project Verification Demo</h2>
+      <p class="muted">Enter sample project details to preview the verification workflow.</p>
+
+      <label for="repo">GitHub Repository URL</label>
+      <input id="repo" value="https://github.com/example/sample-project" />
+
+      <label for="commit">Commit Hash</label>
+      <input id="commit" value="a1b2c3d4e5f67890" />
+
+      <label for="deployment">Live Deployment URL</label>
+      <input id="deployment" value="https://example.vercel.app" />
+
+      <button onclick="verifyProject()">Run Demo Verification</button>
+
+      <div class="status" id="status" aria-live="polite"></div>
+    </section>
+
+    <div class="steps">
+      <div class="step"><b>01 / Verify</b><p>Check repository and commit details.</p></div>
+      <div class="step"><b>02 / Escrow</b><p>Secure payment until delivery conditions are met.</p></div>
+      <div class="step"><b>03 / Release</b><p>Release payment after the client approves delivery.</p></div>
+    </div>
+  </main>
+
+  <footer>GitLock · Secure Code Escrow · Demo Interface</footer>
+
+  <script>
+    function verifyProject() {
+      const repo = document.getElementById("repo").value.trim();
+      const commit = document.getElementById("commit").value.trim();
+      const deployment = document.getElementById("deployment").value.trim();
+      const status = document.getElementById("status");
+
+      status.style.display = "block";
+
+      if (!repo || !commit || !deployment) {
+        status.innerHTML = '<span style="color:#fca5a5">Please fill in all fields.</span>';
+        return;
+      }
+
+      status.innerHTML = `
+        <div class="success">✓ Demo verification completed</div>
+        Repository: ${escapeHTML(repo)}<br>
+        Commit: ${escapeHTML(commit)}<br>
+        Deployment: ${escapeHTML(deployment)}<br>
+        <span class="muted">
+          Simulation only — no repository checks, blockchain transactions,
+          or payment transfers were performed.
+        </span>`;
+    }
+
+    function escapeHTML(value) {
+      return value.replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
+  </script>
+</body>
+</html>
